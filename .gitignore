@@ -3,3 +3,7 @@ app/random/bootstrap
 app/bootstrap/bootstrap
 bootstrap/bootstrap
 /dist/
+libressl*/
+
+function/randombot/randombot
+function/randombot/libressl-2.8.1.tar.gz
