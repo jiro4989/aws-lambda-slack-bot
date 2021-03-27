@@ -3,3 +3,45 @@
 :sectnums:
 
 AWS Lambdaのカスタムランタイムを管理する場所。
+
+== 依存性
+
+- Nim 1.4.4
+
+== ビルド方法
+
+リポジトリ直下の config.nims にビルドタスクを定義しています。
+これを以下のコマンドで使用します。
+
+[source,bash]
+----
+nim buildDist
+----
+
+実行すると `dist` ディレクトリ配下に bootstrap.zip とそれ以外にも複数のzipファイ
+ルが作成されます。
+
+== AWS Labmda での実行方法
+
+まず、構成として AWS APIGateway と AWS Lambda を使用します。
+
+bootstrap.zip は AWS Lambda のカスタムランタイムレイヤー用のZipファイルです。
+AWS Lambda Function を作成する際には、この bootstrap.zip のみ登録したレイヤーを
+作成し、Functionには作成したレイヤーを登録するようにします。
+
+次に、それ以外のzipファイルは、いずれもLambda Function用の実行可能ファイルが含ま
+れています。
+
+これらはすべてAWS Lambda Function 1つにそれぞれ1つのZipをアップロードする想定で
+います。
+
+現状はデプロイを自動化していないため、AWSコンソールから手動でZIPファイルをアップ
+ロードしてデプロイする想定です。
+
+== 認証周り
+
+現状特に認証周りを設けていないのでAPIは叩き放題ですが、
+API Gatewayのスロットリング設定でリクエスト数に制限を設けることで叩き放題になら
+ないようにある程度保護しています。
+
+いずれ認証の設定を入れます。
