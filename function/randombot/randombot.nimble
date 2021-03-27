@@ -13,6 +13,6 @@ requires "nim >= 1.4.4"
 
 
 task createZip, "create zip":
-  #exec "nimble build -d:ssl -d:release --gcc.exe:musl-gcc --gcc.linkerexe:musl-gcc --passL:-static "
-  exec "nimble build -d:ssl -d:release"
+  exec "nim musl -d:libressl src/randombot.nim"
+  mvFile "src/randombot", "randombot"
   exec "zip -r randombot.zip randombot"
