@@ -21,7 +21,7 @@ nim buildDist
 実行すると `dist` ディレクトリ配下に bootstrap.zip とそれ以外にも複数のzipファイ
 ルが作成されます。
 
-== AWS Labmda での実行方法
+== AWS Labmda へのデプロイ
 
 まず、構成として AWS APIGateway と AWS Lambda を使用します。
 
