@@ -11,6 +11,7 @@ type
 
   SlackResponse = object
     text: string
+    response_type: string
 
 proc loadEnvs(): Envs =
   new result
@@ -41,7 +42,7 @@ proc main =
   var client = newHttpClient()
   client.headers = newHttpHeaders({ "Content-Type": "application/json"  })
 
-  let body = $(%* SlackResponse(text: selectedItem))
+  let body = $(%* SlackResponse(text: selectedItem, response_type: "in_channel"))
   discard client.postContent(respUrl, body = body)
 
 when isMainModule:
