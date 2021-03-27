@@ -24,7 +24,7 @@ nim buildDist
 実行すると `dist` ディレクトリ配下に bootstrap.zip とそれ以外にも複数のzipファイ
 ルが作成されます。
 
-== AWS Labmda へのデプロイ
+== AWS Labmda の構成とデプロイの関係
 
 まず、構成として AWS APIGateway と AWS Lambda を使用します。
 
@@ -38,8 +38,24 @@ AWS Lambda Function を作成する際には、この bootstrap.zip のみ登録
 これらはすべてAWS Lambda Function 1つにそれぞれ1つのZipをアップロードする想定で
 います。
 
-現状はデプロイを自動化していないため、AWSコンソールから手動でZIPファイルをアップ
-ロードしてデプロイする想定です。
+== デプロイ
+
+現状はデプロイを自動化していないため、ローカルでコマンドを実行する必要があります。
+`.envrc` を作成する必要があるので、 `.envrc.example` をコピーします。
+コピーしたらエディタで編集して、環境変数を設定します。
+
+[source,bash]
+----
+cp .envrc.example .evnrc
+vim .evnrc
+----
+
+設定が完了したら以下のコマンドでデプロイされます。
+
+[source,bash]
+----
+nim deployFunction
+----
 
 == 認証周り
 
