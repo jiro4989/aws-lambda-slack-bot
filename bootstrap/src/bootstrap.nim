@@ -59,15 +59,14 @@ proc main =
     let nextResp = client.getNext()
     let handler = envs.handler
     let eventData = nextResp[0]
-
-    # TODO
-    var p = startProcess(handler, args = @[eventData], options = {poParentStreams})
-    while p.running:
-      sleep(500)
-    p.close()
-
     let requestId = nextResp[1]
+
     try:
+      var p = startProcess("./" & handler, args = @[eventData], options = {poUsePath, poParentStreams})
+      let exitCode = p.waitForExit(timeout = 3000)
+      doAssert exitCode == 0, "function returns error"
+      p.close()
+
       client.postResponse(requestId)
       info "正常終了"
     except:

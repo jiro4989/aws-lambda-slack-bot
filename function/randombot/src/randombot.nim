@@ -1,4 +1,4 @@
-import json, os, httpclient, strutils, random
+import json, os, httpclient, strutils, random, base64, sequtils, uri
 
 type
   Envs = ref object
@@ -15,9 +15,12 @@ type
 proc loadEnvs(): Envs =
   new result
   let token = getEnv("SLACK_TOKEN")
-  if token == "":
-    return nil
+  # if token == "":
+  #   return nil
   result.slackToken = token
+
+proc getParam(s, key: string): string =
+  result = s.split("&").mapIt(it.split("=")).filterIt(it[0] == key)[0][1].decodeUrl(true)
 
 proc main =
   let envs = loadEnvs()
@@ -26,19 +29,20 @@ proc main =
     return
 
   let args = commandLineParams()
-  let slack = args[0].parseJson.to(SlackRequest)
-  if slack.token != envs.slackToken:
-    # 不正なリクエストかも
+  let text = args[0].parseJson["body"].getStr.decode.getParam("text")
+  let respUrl = args[0].parseJson["body"].getStr.decode.getParam("response_url")
+  if respUrl == "":
+    # 不正アクセスかも
     return
 
   randomize()
-  let selectedItem = slack.text.split(" ").sample
+  let selectedItem = text.split(" ").sample
 
   var client = newHttpClient()
   client.headers = newHttpHeaders({ "Content-Type": "application/json"  })
 
   let body = $(%* SlackResponse(text: selectedItem))
-  discard client.postContent(slack.response_url, body = body)
+  discard client.postContent(respUrl, body = body)
 
 when isMainModule:
   main()
