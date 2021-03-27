@@ -7,6 +7,9 @@ AWS Lambdaのカスタムランタイムを管理する場所。
 == 依存性
 
 - Nim 1.4.4
+- Python3
+  - awscli
+- direnv
 
 == ビルド方法
 
