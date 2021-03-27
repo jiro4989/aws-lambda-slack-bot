@@ -44,11 +44,11 @@ proc getNext(client: LambdaClient): (string, string) =
   result = (event.body, $reqId)
 
 proc postResponse(client: LambdaClient, reqId: string) =
-  let body = %*{"msg":"ok"}
+  let body = %*{"msg":"successfully"}
   discard client.client.postContent(&"{client.baseUrl}/{reqId}/response", body = $body)
 
 proc postError(client: LambdaClient, reqId: string) =
-  let body = %*{"msg":"lambda error"}
+  let body = %*{"msg":"failure"}
   discard client.client.postContent(&"{client.baseUrl}/{reqId}/error", body = $body)
 
 proc main =
