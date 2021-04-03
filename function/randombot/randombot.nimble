@@ -12,7 +12,6 @@ bin           = @["randombot"]
 requires "nim >= 1.4.4"
 
 
-task createZip, "create zip":
+task muslBuild, "musl build":
   exec "nim musl -d:libressl src/randombot.nim"
   mvFile "src/randombot", "randombot"
-  exec "zip -r randombot.zip randombot"

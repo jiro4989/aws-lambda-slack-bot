@@ -2,13 +2,16 @@ task setup, "setup":
   exec "pip3 install --user awscli"
 
 task buildDist, "build bootstrap":
+  rmdir "dist"
   mkdir "dist"
   withDir "bootstrap":
-    exec "nimble createZip"
-    mvFile "bootstrap.zip", "../dist/bootstrap.zip"
+    exec "nimble muslBuild"
+    mvFile "bootstrap", "../dist/bootstrap"
   withDir "function/randombot":
-    exec "nimble createZip"
-    mvFile "randombot.zip", "../../dist/randombot.zip"
+    exec "nimble muslBuild"
+    mvFile "randombot", "../../dist/randombot"
+  withDir "dist":
+    exec "zip -r randombot.zip bootstrap randombot"
 
 task deployFunction, "deploy aws lambda function":
   exec "~/.local/bin/aws lambda update-function-code --function-name prd-randombot --zip-file fileb://dist/randombot.zip"

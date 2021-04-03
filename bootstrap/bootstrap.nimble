@@ -11,7 +11,6 @@ bin           = @["bootstrap"]
 
 requires "nim >= 1.4.4"
 
-task createZip, "build bootstrap and create zip":
+task muslBuild, "musl build":
   exec "nim musl -d:libressl src/bootstrap.nim"
   mvFile "src/bootstrap", "bootstrap"
-  exec "zip -r bootstrap.zip bootstrap"
