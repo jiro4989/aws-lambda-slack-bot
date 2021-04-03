@@ -8,3 +8,4 @@ libressl*/
 function/randombot/randombot
 function/randombot/libressl-2.8.1.tar.gz
 .envrc
+bootstrap/libressl-2.8.1.tar.gz
