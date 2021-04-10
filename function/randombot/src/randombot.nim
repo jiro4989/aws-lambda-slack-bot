@@ -1,4 +1,4 @@
-import json, os, httpclient, strutils, random, base64, sequtils, uri, strformat
+import json, os, httpclient, strutils, random, base64, sequtils, uri, strformat, times
 
 type
   Envs = ref object
@@ -12,6 +12,14 @@ type
   SlackResponse = object
     text: string
     response_type: string
+
+  Log = ref object
+    timestamp: string
+    level: string
+    msg: string
+
+proc info(msg: string) =
+  echo(%* Log(timestamp: $now(), level: "info", msg: msg))
 
 proc loadEnvs(): Envs =
   new result
@@ -45,7 +53,8 @@ selected: `{selectedItem}`"""
   client.headers = newHttpHeaders({ "Content-Type": "application/json"  })
 
   let body = $(%* SlackResponse(text: respText, response_type: "in_channel"))
-  discard client.postContent(respUrl, body = body)
+  let respContent = client.postContent(respUrl, body = body)
+  info "postResponse.content=" & respContent
 
 when isMainModule:
   main()
