@@ -45,11 +45,13 @@ proc getNext(client: LambdaClient): (string, string) =
 
 proc postResponse(client: LambdaClient, reqId: string) =
   let body = %*{"msg":"successfully"}
-  discard client.client.postContent(&"{client.baseUrl}/{reqId}/response", body = $body)
+  let resp = client.client.postContent(&"{client.baseUrl}/{reqId}/response", body = $body)
+  info "postResponse.content=" & resp
 
 proc postError(client: LambdaClient, reqId: string) =
   let body = %*{"msg":"failure"}
-  discard client.client.postContent(&"{client.baseUrl}/{reqId}/error", body = $body)
+  let resp = client.client.postContent(&"{client.baseUrl}/{reqId}/error", body = $body)
+  info "postError.content=" & resp
 
 proc main =
   let envs = loadEnvs()
