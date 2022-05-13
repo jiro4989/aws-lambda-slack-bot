@@ -16,9 +16,9 @@ AWS Lambdaのカスタムランタイムを管理する場所。
 リポジトリ直下の config.nims にビルドタスクを定義しています。
 これを以下のコマンドで使用します。
 
-[source,bash]
+[source,source]
 ----
-nim buildDist
+$ nim buildDist
 ----
 
 実行すると `dist` ディレクトリ配下に bootstrap.zip とそれ以外にも複数のzipファイ
@@ -44,17 +44,17 @@ AWS Lambda Function を作成する際には、この bootstrap.zip のみ登録
 `.envrc` を作成する必要があるので、 `.envrc.example` をコピーします。
 コピーしたらエディタで編集して、環境変数を設定します。
 
-[source,bash]
+[source,source]
 ----
-cp .envrc.example .evnrc
-vim .evnrc
+$ cp .envrc.example .evnrc
+$ vim .evnrc
 ----
 
 設定が完了したら以下のコマンドでデプロイされます。
 
-[source,bash]
+[source,console]
 ----
-nim deployFunction
+$ nim deployFunction
 ----
 
 == 認証周り
